@@ -12,6 +12,14 @@ Using this data the functions in MultiPie will produce a "field" of pie charts v
 
 ![Example "field" of pie charts](multipies.png)
 
+### Size of the pie charts
+As _MultiPie_ is primarily designed to visualise the results of Civil Service People Survey results for departments and agencies the size of the pies is only partially proportionate to headcount. There is a substantial variation in size of the different organisations that take part in the Civil Service People Survey, the ratio between the headcounts largest and smallest organisation (DWP and HM Crown Prosecution Service Inspectorate) was 3,323. 
+
+A pie chart in `ggplot` can be thought of as a bar/column chart which twisted around to form a circle. Within a standard column chart we could vary the width of the column while holding the height constant to account for differences in headcount. However, we need to consider that the area of circles is different to the area of rectangles, and so we must factor in geometry. If we didn't the ratio between the area of the largest pie and the smallest pie is 11 million. 
+
+Thinking of a pie chart as a column chart twisted into a circle means that the width of the column becomes the radius of the pie. _MultiPie_ thinks of the headcounts it is given as the 'area' of the circle and converts these into radii of corresponding circles, `hc_rad = sqrt(hc/(2*pi))`. This ensures that the overall ratio of the area of the pies is 3,323, but this is too big to allow for plots that can show the results of the smallest and largest organisations (without being printed on an A0 poster). `make_chart()` applies `log10()` to the radii when drawing the circles, doing this the ratio between the largest and smallest radii drops to 47. Applying `log10()` to the headcounts and then converting into radii would reduce the ratio of areas to just 3.5, which shows no variation at all.
+
+### Required packages
 _MultiPie_ requires the `tidyverse`, `formattable`, `stringr`, and `glue` packages from the CRAN repository. It also requires the [`govstyle`](https://github.com/ukgovdatascience/govstyle) package developed by GDS. If _MultiPie_ can't find these packages then it will ask you to install them.
 
 `csps_multiPie.R` contains the functions. `multipie_user.R` is a script showing usage, which is also discussed below.

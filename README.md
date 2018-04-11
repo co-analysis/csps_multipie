@@ -1,2 +1,2 @@
-# csps_multipie
-Make grids of pie charts of Civil Service People Survey data in R
+# CSPS MultiPie
+A set of functions to create a grid of multiple pie charts (a "MultiPie") of results from the Civil Service People Survey. Each _MultiPie_ shows the scores of one metric from the People Survey split across different categories of a group, with the size of individual pie charts being quasi-proportionate to a given size variable. The main use is to show the scores of different organisations while also demonstrating variable headcount across organisations.

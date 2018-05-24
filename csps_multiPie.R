@@ -300,7 +300,7 @@ set_chart_colours <- function(colour = "light_blue"){
 
 # function makes a plot
 
-make_chart <- function(chart_data, chart_colour, orientation = "landscape"){
+make_chart <- function(chart_data, chart_colour, orientation = "landscape") {
 
   # check if data argument provided
   if (missing(chart_data)) {
@@ -310,6 +310,9 @@ make_chart <- function(chart_data, chart_colour, orientation = "landscape"){
   if (missing(chart_colour)) {
     # no chart colours defined, use the defaults
     chart_colours <- set_chart_colours()
+  } else if (length(chart_colour) > 1) {
+    warning("Using colour array provided")
+    chart_colours <- chart_colour
   } else {
     chart_colours <- set_chart_colours(chart_colour)
   }

@@ -255,7 +255,7 @@ chartable_data <- function(metric, dataset = "scores", hcs = "headcounts") {
       negval = 1 - val,
       rank = rank(val, ties.method = "min"),
       rankorg = paste(str_pad(102 - rank,3,"left",0), org, sep = "_"),
-      hc_rad = sqrt(hc/(2*pi))
+      hc_rad = sqrt(hc/pi)
       ) %>%
     gather(key = "grp", value = "score", val, negval) %>%
     mutate(score = percent(score, 0)) %>%

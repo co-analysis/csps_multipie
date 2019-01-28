@@ -166,7 +166,7 @@ import_hc <- function(dataset) {
   # check  headcounts are included in the dataset
   # be kind and allow and 'headcount'
   if (("hc" %in% colnames(x)) == FALSE &
-             ("headcount" %in% colnames(x))) {
+             ("org" %in% colnames(x)) == FALSE) {
     stop("Dataset \'", dataset,"\' does not contain a column for organisation ",
          "codes: no column named \'hc\' found.")
   }
@@ -254,7 +254,7 @@ chartable_data <- function(metric, dataset = "scores", hcs = "headcounts") {
     mutate(
       negval = 1 - val,
       rank = rank(val, ties.method = "min"),
-      rankorg = paste(str_pad(102 - rank,3,"left",0), org, sep = "_"),
+      rankorg = paste(str_pad(nrow(x) - rank,3,"left",0), org, sep = "_"),
       hc_rad = sqrt(hc/pi)
       ) %>%
     gather(key = "grp", value = "score", val, negval) %>%
@@ -342,7 +342,7 @@ make_chart <- function(chart_data, chart_colour, orientation = "landscape") {
                               )
               ) +
     # use column chart format (simple version of geom_bar)
-    geom_col() +
+    geom_col(show.legend = FALSE) +
     # set manual colours
     scale_fill_manual(values = chart_colours) +
     # conver to circular plot
@@ -352,9 +352,7 @@ make_chart <- function(chart_data, chart_colour, orientation = "landscape") {
     # remove all the chart gubbins (axes, gridlines, backgrounds, etc)
     theme_void() +
     # move legend and change text size
-    theme(legend.position = "top",
-          legend.title = element_text(size = 8),
-          legend.text = element_text(size = 8),
+    theme(
           strip.text = element_text(size = 8)
     )
 
